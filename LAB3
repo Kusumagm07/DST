@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h> // Include for exit function
+#include <stdlib.h> 
 
 #define MAX 50
 
@@ -11,7 +11,7 @@ int queue_array[MAX];
 int rear = -1;
 int front = -1;
 
-int main() // Specify return type as int11
+int main() 
 {
     int choice;
     while (1)
@@ -37,9 +37,9 @@ int main() // Specify return type as int11
                 exit(0);
             default:
                 printf("Wrong choice \n");
-        } /* End of switch */
-    } /* End of while */
-} /* End of main() */
+        } 
+    } 
+} 
 
 void insert()
 {
@@ -56,7 +56,7 @@ void insert()
         rear = rear + 1;
         queue_array[rear] = add_item;
     }
-} /* End of insert() */
+}
 
 void delete()
 {
@@ -70,7 +70,7 @@ void delete()
         printf("Element deleted from queue is: %d\n", queue_array[front]);
         front = front + 1;
     }
-} /* End of delete() */
+} 
 
 void display()
 {
@@ -84,4 +84,4 @@ void display()
             printf("%d ", queue_array[i]);
         printf("\n");
     }
-} /* End of display() */
+} 
