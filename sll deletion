@@ -1,0 +1,149 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a node
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to create a new node
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to display the list
+void displayList(struct Node* head) {
+    if (head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+// Function to delete from the beginning
+void deleteFromBeginning(struct Node** head) {
+    if (*head == NULL) {
+        printf("List is already empty.\n");
+        return;
+    }
+    struct Node* temp = *head;
+    *head = (*head)->next;
+    free(temp);
+    printf("Node deleted from the beginning.\n");
+}
+
+// Function to delete from the end
+void deleteFromEnd(struct Node** head) {
+    if (*head == NULL) {
+        printf("List is already empty.\n");
+        return;
+    }
+    if ((*head)->next == NULL) {
+        free(*head);
+        *head = NULL;
+        printf("Node deleted from the end.\n");
+        return;
+    }
+    struct Node* temp = *head;
+    while (temp->next && temp->next->next) {
+        temp = temp->next;
+    }
+    free(temp->next);
+    temp->next = NULL;
+    printf("Node deleted from the end.\n");
+}
+
+// Function to delete a node from a specific position
+void deleteAtPosition(struct Node** head, int position) {
+    if (*head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    if (position == 0) {
+        deleteFromBeginning(head);
+        return;
+    }
+
+    struct Node* temp = *head;
+    for (int i = 0; temp != NULL && i < position - 1; i++) {
+        temp = temp->next;
+    }
+
+    if (temp == NULL || temp->next == NULL) {
+        printf("Position out of range.\n");
+        return;
+    }
+
+    struct Node* nodeToDelete = temp->next;
+    temp->next = temp->next->next;
+    free(nodeToDelete);
+    printf("Node deleted from position %d.\n", position);
+}
+
+int main() {
+    struct Node* head = NULL;
+    int choice, value, position;
+
+    while (1) {
+        printf("\n1. Create Node\n");
+        printf("2. Display List\n");
+        printf("3. Delete Node from Beginning\n");
+        printf("4. Delete Node from End\n");
+        printf("5. Delete Node from Specific Position\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value to insert: ");
+                scanf("%d", &value);
+                if (head == NULL) {
+                    head = createNode(value);
+                } else {
+                    struct Node* temp = head;
+                    while (temp->next != NULL) {
+                        temp = temp->next;
+                    }
+                    temp->next = createNode(value);
+                }
+                break;
+
+            case 2:
+                displayList(head);
+                break;
+
+            case 3:
+                deleteFromBeginning(&head);
+                break;
+
+            case 4:
+                deleteFromEnd(&head);
+                break;
+
+            case 5:
+                printf("Enter position to delete: ");
+                scanf("%d", &position);
+                deleteAtPosition(&head, position);
+                break;
+
+            case 6:
+                printf("Exiting program.\n");
+                return 0;
+
+            default:
+                printf("Invalid choice, please try again.\n");
+        }
+    }
+
+    return 0;
+}
